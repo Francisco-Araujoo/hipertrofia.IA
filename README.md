@@ -210,7 +210,7 @@ Crie um arquivo `.env.local` na raiz do projeto:
 PYTHON_API_URL=http://localhost:8000
 
 # Configurações de produção (opcional)
-NEXT_PUBLIC_API_URL=https://hipertrofia-ia-api.herokuapp.com
+NEXT_PUBLIC_API_URL=https://hipertrofiaai.netlify.app
 ```
 
 ### **Produção**
