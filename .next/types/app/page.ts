@@ -1,4 +1,4 @@
-// File: C:\Users\franc\OneDrive\Área de Trabalho\Projetos\hipertrofia.IA\app\page.tsx
+// File: C:\Users\franc\OneDrive\Área de Trabalho\Projetos\hipertrofia.IA-1\app\page.tsx
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

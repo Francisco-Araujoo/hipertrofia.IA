@@ -2,13 +2,18 @@
 
 import type React from "react"
 
-import { useChat } from "ai/react"
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Send, Brain, User, Loader2, Dumbbell } from "lucide-react"
+
+interface Message {
+  id: string
+  role: "user" | "assistant"
+  content: string
+}
 
 const suggestedQuestions = [
   "Oi, quero começar a treinar!",
@@ -23,7 +28,9 @@ const suggestedQuestions = [
 ]
 
 export function ChatInterface() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat()
+  const [messages, setMessages] = useState<Message[]>([])
+  const [input, setInput] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
   const [selectedQuestion, setSelectedQuestion] = useState<string>("")
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
@@ -35,16 +42,73 @@ export function ChatInterface() {
     scrollToBottom()
   }, [messages])
 
-  const handleSuggestedQuestion = (question: string) => {
-    setSelectedQuestion(question)
-    handleInputChange({ target: { value: question } } as any)
+  const sendMessage = async (messageContent: string) => {
+    if (!messageContent.trim()) return
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: "user",
+      content: messageContent
+    }
+
+    setMessages(prev => [...prev, userMessage])
+    setIsLoading(true)
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: [...messages, userMessage].map(m => ({ role: m.role, content: m.content }))
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Erro na resposta da API')
+      }
+
+      const data = await response.json()
+
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: data.message
+      }
+
+      setMessages(prev => [...prev, assistantMessage])
+    } catch (error) {
+      console.error('Erro ao enviar mensagem:', error)
+
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: "Desculpe, ocorreu um erro. Tente novamente em alguns instantes. 💪"
+      }
+
+      setMessages(prev => [...prev, errorMessage])
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSuggestedQuestion = (question: string) => {
+    setSelectedQuestion(question)
+    setInput(question)
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!input.trim()) return
-    handleSubmit(e)
+    if (!input.trim() || isLoading) return
+
+    sendMessage(input)
+    setInput("")
     setSelectedQuestion("")
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value)
   }
 
   return (
@@ -153,7 +217,7 @@ export function ChatInterface() {
             </div>
           )}
 
-          <form onSubmit={onSubmit} className="flex space-x-2">
+          <form onSubmit={handleSubmit} className="flex space-x-2">
             <Input
               value={input}
               onChange={handleInputChange}

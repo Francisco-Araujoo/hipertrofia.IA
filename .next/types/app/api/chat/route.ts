@@ -1,4 +1,4 @@
-// File: C:\Users\franc\OneDrive\Área de Trabalho\Projetos\hipertrofia.IA\app\api\chat\route.ts
+// File: C:\Users\franc\OneDrive\Área de Trabalho\Projetos\hipertrofia.IA-1\app\api\chat\route.ts
 import * as entry from '../../../../../app/api/chat/route.js'
 import type { NextRequest } from 'next/server.js'
 
