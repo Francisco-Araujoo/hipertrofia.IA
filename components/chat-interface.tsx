@@ -112,7 +112,7 @@ export function ChatInterface() {
   }
 
   return (
-    <Card className="bg-gray-900 border-gray-700 h-[600px] flex flex-col">
+    <Card className="bg-gray-900 border-gray-700 h-[600px] flex flex-col w-full max-w-4xl mx-auto">
       <CardHeader className="border-b border-gray-700 flex-shrink-0">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
@@ -128,9 +128,9 @@ export function ChatInterface() {
         </div>
       </CardHeader>
 
-      <CardContent className="flex-1 flex flex-col p-0">
+      <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
           {messages.length === 0 && (
             <div className="text-center py-8">
               <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -159,7 +159,7 @@ export function ChatInterface() {
           {messages.map((message, index) => (
             <div key={message.id} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
               <div
-                className={`flex items-start space-x-2 max-w-[80%] ${message.role === "user" ? "flex-row-reverse space-x-reverse" : ""}`}
+                className={`flex items-start space-x-2 max-w-[85%] sm:max-w-[80%] ${message.role === "user" ? "flex-row-reverse space-x-reverse" : ""}`}
               >
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${message.role === "user" ? "bg-blue-500" : "bg-gradient-to-r from-green-500 to-blue-500"
@@ -172,10 +172,10 @@ export function ChatInterface() {
                   )}
                 </div>
                 <div
-                  className={`rounded-lg p-3 ${message.role === "user" ? "bg-blue-500 text-white" : "bg-gray-800 text-gray-200"
+                  className={`rounded-lg p-3 break-words ${message.role === "user" ? "bg-blue-500 text-white" : "bg-gray-800 text-gray-200"
                     }`}
                 >
-                  <div className="text-sm whitespace-pre-wrap">{message.content}</div>
+                  <div className="text-sm whitespace-pre-wrap break-words overflow-wrap-anywhere">{message.content}</div>
                 </div>
               </div>
             </div>
@@ -201,7 +201,7 @@ export function ChatInterface() {
         </div>
 
         {/* Input Area */}
-        <div className="border-t border-gray-700 p-4">
+        <div className="border-t border-gray-700 p-4 flex-shrink-0">
           {messages.length > 0 && (
             <div className="mb-3 flex flex-wrap gap-2">
               {suggestedQuestions.slice(6).map((question, index) => (

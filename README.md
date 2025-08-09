@@ -1,7 +1,7 @@
 # 🤖 Hipertrofia.IA - Personal Trainer Virtual
 
 <div align="center">
-  <img src="./public/placeholder-logo.svg" alt="Hipertrofia.IA Logo" width="200"/>
+  <img src="./screenshots/overview.svg" alt="Hipertrofia.IA Overview" width="800"/>
   
   [![Next.js](https://img.shields.io/badge/Next.js-15.2.4-black)](https://nextjs.org/)
   [![Python](https://img.shields.io/badge/Python-3.8+-blue)](https://python.org/)
@@ -296,21 +296,25 @@ def generate_training_plan(profile: UserProfile) -> TrainingPlan:
 - **Componentes**: Radix UI para acessibilidade
 - **Responsividade**: Mobile-first design
 
+![Interface Principal](./screenshots/interface-principal.svg)
+
 ### **Componentes Principais**
 
 #### **Chat Interface**
 ```tsx
 <ChatInterface />
-// - Área de mensagens
-// - Input de texto
+// - Área de mensagens com scroll automático
+// - Input de texto responsivo
 // - Sugestões de perguntas
-// - Loading states
+// - Loading states e tratamento de erros
+// - Quebra de linha inteligente para textos longos
 ```
 
 #### **Mensagens**
 - **Usuário**: Lado direito, cor azul
 - **IA**: Lado esquerdo, gradiente verde-azul
 - **Estados**: Loading, erro, sucesso
+- **Responsividade**: Máximo 85% da largura em mobile, 80% em desktop
 
 ---
 
